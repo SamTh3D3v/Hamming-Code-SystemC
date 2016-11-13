@@ -2,7 +2,7 @@
 
 void SynGen::calculate()
 {
-	sc_uint <15> syndrome;
+	sc_uint <4> syndrome;
 	sc_uint <15> data;
 	sc_uint <15> syndMatrice[4];
 	sc_logic tmp=0;

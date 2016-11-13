@@ -6,7 +6,7 @@ SC_MODULE(Corrector)
 	//Ports
 	sc_in < sc_uint<15> > datain;
 	sc_in < sc_uint<4> > syndin;
-	sc_out < sc_uint<15> > dout;
+	sc_out < sc_uint<11> > dout;
 
 	//peocessus principal
 
