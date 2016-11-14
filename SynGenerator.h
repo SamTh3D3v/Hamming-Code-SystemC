@@ -6,7 +6,7 @@ SC_MODULE(SynGen)
 	//Ports
 	sc_in < sc_logic > clk;
 	sc_in < sc_uint<15> > din;
-	sc_out < sc_uint<15> > dout;
+	sc_out < sc_uint<4> > dout;
 
 	//peocessus principal
 
