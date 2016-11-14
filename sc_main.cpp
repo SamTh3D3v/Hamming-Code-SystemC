@@ -1,6 +1,8 @@
 #include <systemc.h>
+#include "HammingRegister.h"
 #include "testbench.h"
-#include "reg.h"
+
+
 
 int sc_main(int argc, char* argv){
 	sc_signal< sc_logic > clk;
