@@ -5,7 +5,6 @@
 //ce registre permet d'envoyer et recevoire des mot code en Hamming
 
 
-
 SC_MODULE(HamReg)
 {
 	HCGen *hgen;
@@ -24,10 +23,21 @@ SC_MODULE(HamReg)
     //signal de connection des modules
     sc_signal < sc_uint <4> > syndSig;
 
-	//processus principal
+    //les signaux de handshake
+    sc_in < bool > din_vld;
+    sc_out < bool > din_rdy;
 
-	void coder();
-	void decoder();
+    sc_in < bool > codedin_vld;
+    sc_out < bool > codedin_rdy;
+
+    sc_out < bool > codedout_vld;
+    sc_in < bool > codedout_rdy;
+
+    sc_out < bool > dout_vld;
+    sc_in < bool > dout_rdy;
+
+    void ham_main_din();
+    void ham_main_codedin();
 
 	//constructeur
 	SC_CTOR(HamReg){
@@ -45,6 +55,9 @@ SC_MODULE(HamReg)
 		corr->datain( din );
 		corr->syndin( syndSig );
 		corr->dout( dout );
+
+		SC_METHOD(ham_main_din);
+		SC_METHOD(ham_main_codedin);
 
 	sensitive << coded_din << din ;
 	}
