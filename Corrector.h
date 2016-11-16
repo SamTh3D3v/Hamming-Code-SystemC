@@ -1,3 +1,5 @@
+#ifndef CORR_
+#define CORR_
 #include <systemc.h>
 
 
@@ -17,3 +19,5 @@ SC_MODULE(Corrector)
 	sensitive << datain << syndin;
 	}
 };
+
+#endif

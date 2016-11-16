@@ -5,10 +5,10 @@ void HCGen::generate()
 	sc_uint <15> res;
 	sc_uint <11> tmp;
 
-	sc_logic p1, p2, p3, p4;
+	bool p1, p2, p3, p4;
 
 	tmp=din.read();
-	p1=tmp.bit(0)^ tmp.bit(1)^tmp.bit(3)^tmp.bit(4)^tmp.bit(6)^tmp.bit(8)^tmp.bit(10);
+	p1=tmp.bit(0) ^ tmp.bit(1)^tmp.bit(3)^tmp.bit(4)^tmp.bit(6)^tmp.bit(8)^tmp.bit(10);
 	p2=tmp.bit(0)^ tmp.bit(2)^tmp.bit(3)^tmp.bit(5)^tmp.bit(6)^tmp.bit(9)^tmp.bit(10);
 	p3=tmp.bit(1)^ tmp.bit(2)^tmp.bit(3)^tmp.bit(7)^tmp.bit(8)^tmp.bit(9)^tmp.bit(10);
 	p4=tmp.bit(4)^ tmp.bit(5)^tmp.bit(6)^tmp.bit(7)^tmp.bit(8)^tmp.bit(9)^tmp.bit(10);

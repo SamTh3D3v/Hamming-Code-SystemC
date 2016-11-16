@@ -5,7 +5,7 @@ void SynGen::calculate()
 	sc_uint <4> syndrome;
 	sc_uint <15> data;
 	sc_uint <15> syndMatrice[4];
-	sc_logic tmp=0;
+	bool tmp=0;
 
 	data=din.read();
 	//la  matrice H qui permet de calculer le syndrome

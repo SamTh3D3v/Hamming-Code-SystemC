@@ -16,7 +16,6 @@ void tbreg::clkInput(){
 //Process Statement
 void tbreg::send(){
 	//l'envoie des données a codé
-	sc_uint <11> tmp;
 	din_vld.write(0);
 
 
@@ -24,8 +23,8 @@ void tbreg::send(){
 
 
 		din_vld.write(1);
-		tmp=din.write(i);
-		cout << i << " din<11> : \t" << tmp <<endl;
+		din.write(i);
+		cout << i << " din<11> : \t" << i <<endl;
 
 		do{
 			wait();

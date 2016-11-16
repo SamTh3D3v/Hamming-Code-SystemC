@@ -12,7 +12,7 @@ int pow=1,cpt=0;
 tmpSyn=syndin.read();
 tmpData=datain.read();
 //the correction
-if(syndin!=0)
+if(tmpSyn != 0 )
 {
 	//there is a mistake in the data
 	for(int i=0;i<4;i++){

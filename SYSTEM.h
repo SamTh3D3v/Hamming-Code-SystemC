@@ -1,3 +1,6 @@
+#ifndef SYSTEM_
+#define SYSTEM_
+
 #include <systemc.h>
 #include "HammingRegister.h"
 #include "testbench.h"
@@ -6,7 +9,7 @@
 
 
 
-SC_MODULE(SYSTEM)
+SC_MODULE(SYSTEMH)
 {
 	HamReg *hreg;
 	tbreg *tb;
@@ -38,7 +41,7 @@ SC_MODULE(SYSTEM)
 
 	sc_clock clk_sig;
 
-	SC_CTOR(SYSTEM)
+	SC_CTOR(SYSTEMH)
 	:clk_sig("clk_sig",10, SC_NS)
 	{
 
@@ -83,8 +86,11 @@ SC_MODULE(SYSTEM)
       tb->codedout_rdy(codedout_sig_rdy);
       tb->codedout_vld(codedout_sig_vld);
 	}
-	~SYSTEM(){
-     delete tbreg;
+	~SYSTEMH(){
+     delete tb;
      delete hreg;
 	}
 };
+
+
+#endif

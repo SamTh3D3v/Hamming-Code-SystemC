@@ -4,11 +4,11 @@
 #include "SYSTEM.h"
 
 
-SYSTEM *system=NULL;
+SYSTEMH *sysh=NULL;
 
 int sc_main(int argc, char* argv)
 {
-	system=new SYSTEM("system");
+	sysh=new SYSTEMH("sysh");
 	sc_start();
 	return 0;
 }

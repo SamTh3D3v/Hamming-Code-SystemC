@@ -1,6 +1,10 @@
+#ifndef HAMMINGREG_
+#define HAMMINGREG_
+
 #include <systemc.h>
 #include "HCGenerator.h"
 #include "SynGenerator.h"
+#include "Corrector.h"
 
 //ce registre permet d'envoyer et recevoire des mot code en Hamming
 
@@ -12,7 +16,7 @@ SC_MODULE(HamReg)
 	Corrector *corr;
 
 	//Ports
-	sc_in < sc_logic > clk;
+	sc_in < bool > clk;
 	sc_in < sc_uint<15> > coded_din;
 	sc_out < sc_uint<15> > coded_dout;
 
@@ -52,7 +56,7 @@ SC_MODULE(HamReg)
 
 
 		corr=new Corrector("corr");
-		corr->datain( din );
+		corr->datain( coded_din );
 		corr->syndin( syndSig );
 		corr->dout( dout );
 
@@ -67,3 +71,5 @@ SC_MODULE(HamReg)
      delete corr;
 	}
 };
+
+#endif

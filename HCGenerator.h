@@ -1,3 +1,5 @@
+#ifndef HCGEN_
+#define HCGEN_
 #include <systemc.h>
 
 
@@ -16,5 +18,8 @@ SC_MODULE(HCGen)
 	SC_CTOR(HCGen){
 	SC_METHOD(generate);
 	sensitive << din;
+	sensitive << clk;
 	}
 };
+
+#endif

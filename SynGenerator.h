@@ -1,3 +1,6 @@
+#ifndef SYNGEN_
+#define SYNGEN_
+
 #include <systemc.h>
 
 
@@ -18,3 +21,6 @@ SC_MODULE(SynGen)
 	sensitive << din;
 	}
 };
+
+
+#endif
