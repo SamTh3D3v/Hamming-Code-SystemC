@@ -44,7 +44,7 @@ for(int i=1;i<=15;i++)
 	if(i==pow){
        pow *=2;
 	}else{
-		res.set(cpt, tmpData.bit(i));
+		res.set(cpt, tmpData.bit(i-1));
 		cpt++;
 	}
 }

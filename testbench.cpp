@@ -1,5 +1,8 @@
 #include "testbench.h"
+#include <bitset>
+#include <iostream>
 
+using namespace std;
 /*
 void tbreg::clkInput(){
 	while(true){
@@ -14,28 +17,26 @@ void tbreg::clkInput(){
 }
 */
 //Process Statement
+
+
+
 void tbreg::send(){
 	//l'envoie des données a codé
 	din_vld.write(0);
 
-
 	for(int i=0;i<128; i++){
-
-
 		din_vld.write(1);
 		din.write(i);
-		cout << i << " din<11> : \t" << i <<endl;
 
 		do{
 			wait();
-		}while(!dout_rdy.read());
+		}while(!din_rdy.read());
 		din_vld.write(0);
 
  	}
 }
 void tbreg::receive(){
 	sc_uint <15> coded_data_tmp;
-
 	codedout_rdy.write(0);
 	for(int i=0;i<128; i++){
 
@@ -44,11 +45,11 @@ void tbreg::receive(){
 					wait();
 		 }while(!codedout_vld.read());
 		coded_data_tmp=coded_dout.read();
-		wait();
-		cout << i << "coded_dout<15> : \t" << coded_data_tmp <<endl;
+		//wait();
+		cout <<" din<11>: \t"<< std::bitset<11>(i) << " -> coded_dout<15> : \t" << std::bitset<15>(coded_data_tmp) <<endl;
 		codedout_rdy.write(0);
 	}
 
 	//terminer la simulation
-	sc_stop();
+	//sc_stop();
 }

@@ -2,12 +2,22 @@
 
 void HCGen::generate()
 {
+
+while(true){
+
 	sc_uint <15> res;
 	sc_uint <11> tmp;
 
 	bool p1, p2, p3, p4;
 
+	din_rdy.write(1);
+	    	do{
+	    		wait();
+	}while(! din_vld.read());
+
 	tmp=din.read();
+	din_rdy.write(0);
+
 	p1=tmp.bit(0) ^ tmp.bit(1)^tmp.bit(3)^tmp.bit(4)^tmp.bit(6)^tmp.bit(8)^tmp.bit(10);
 	p2=tmp.bit(0)^ tmp.bit(2)^tmp.bit(3)^tmp.bit(5)^tmp.bit(6)^tmp.bit(9)^tmp.bit(10);
 	p3=tmp.bit(1)^ tmp.bit(2)^tmp.bit(3)^tmp.bit(7)^tmp.bit(8)^tmp.bit(9)^tmp.bit(10);
@@ -31,5 +41,12 @@ void HCGen::generate()
    res.set(13,(bool)tmp.bit(9));
    res.set(14,(bool)tmp.bit(10));
 
+    codedout_vld.write(1);
 	dout.write(res);
+
+	do{
+		wait();
+	}while(! codedout_rdy.read());
+	codedout_vld.write(0);
+}
 }

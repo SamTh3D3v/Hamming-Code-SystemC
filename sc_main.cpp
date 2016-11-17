@@ -5,10 +5,11 @@
 
 
 SYSTEMH *sysh=NULL;
-
-int sc_main(int argc, char* argv)
+int sc_main(int argc, char *argv[])
 {
+    cout << " start simulation \n"<< endl;
 	sysh=new SYSTEMH("sysh");
-	sc_start();
+    sc_start();
+	cout <<"Simulation ended \n"<<endl;
 	return 0;
 }
