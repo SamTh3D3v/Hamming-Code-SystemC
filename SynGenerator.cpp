@@ -2,6 +2,7 @@
 
 void SynGen::calculate()
 {
+	//while(true){
 	sc_uint <4> syndrome;
 	sc_uint <15> data;
 	sc_uint <15> syndMatrice[4];
@@ -21,4 +22,5 @@ void SynGen::calculate()
 		syndrome.set(j,(bool)tmp);
 	}
 	dout.write(syndrome);
+	//}
 }

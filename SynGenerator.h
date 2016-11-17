@@ -7,7 +7,7 @@
 SC_MODULE(SynGen)
 {
 	//Ports
-	//sc_in < bool > clk;
+	sc_in < bool > clk;
 	sc_in < sc_uint<15> > din;
 	sc_out < sc_uint<4> > dout;
 
@@ -17,8 +17,8 @@ SC_MODULE(SynGen)
 
 	//constructeur
 	SC_CTOR(SynGen){
-	SC_METHOD(calculate);
-	sensitive << din;
+		SC_METHOD(calculate);
+		sensitive << clk.pos();
 	}
 };
 

@@ -33,18 +33,14 @@ SC_MODULE(HamReg)
     //les signaux de handshake
     sc_in < bool > din_vld;
     sc_out < bool > din_rdy;
-
     sc_out < bool > codedout_vld;
     sc_in < bool > codedout_rdy;
 
-    /*
+
     sc_in < bool > codedin_vld;
     sc_out < bool > codedin_rdy;
-
-
-
     sc_out < bool > dout_vld;
-    sc_in < bool > dout_rdy;*/
+    sc_in < bool > dout_rdy;
 
     void ham_main_din();
     void ham_main_codedin();
@@ -66,18 +62,23 @@ SC_MODULE(HamReg)
 		sgen=new SynGen("sgen");
 		sgen->din( coded_din );
         sgen->dout( syndSig );
-        //sgen->clk(clk);
+        sgen->clk(clk);
 
 
 		corr=new Corrector("corr");
 		corr->datain( coded_din );
 		corr->syndin( syndSig );
 		corr->dout( dout );
+		corr->clk(clk);
+		corr->codedin_rdy(codedin_rdy);
+		corr->codedin_vld(codedin_vld);
+		corr->dout_rdy(dout_rdy);
+		corr->dout_vld(dout_vld);
 		//corr->clk(clk);
 
 
 		SC_CTHREAD(ham_main_din,clk.pos());
-		//SC_METHOD(ham_main_codedin);
+		SC_CTHREAD(ham_main_codedin,clk.pos());
 
 	//sensitive << coded_din << din ;
 	 //sensitive << clk.pos();
