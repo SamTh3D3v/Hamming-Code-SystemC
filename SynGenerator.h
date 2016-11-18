@@ -21,7 +21,7 @@ SC_MODULE(SynGen)
 	//constructeur
 	SC_CTOR(SynGen){
 		SC_METHOD(calculate);
-		sensitive << clk.pos();
+		sensitive << din;
 	}
 };
 
