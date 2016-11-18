@@ -7,9 +7,9 @@
 SYSTEMH *sysh=NULL;
 int sc_main(int argc, char *argv[])
 {
-    cout << " start simulation \n"<< endl;
+    cout << " Simulation Demarrer "<< endl;
 	sysh=new SYSTEMH("sysh");
-    sc_start();
-	cout <<"Simulation ended \n"<<endl;
+    sc_start();     //pour demarrer la simulation
+	cout <<" Simulation Terminer "<<endl;
 	return 0;
 }

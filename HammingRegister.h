@@ -1,4 +1,4 @@
-#ifndef HAMMINGREG_
+#ifndef HAMMINGREG_    //pour eviter le probleme d'inclusion infinie
 #define HAMMINGREG_
 
 #include <systemc.h>
@@ -6,27 +6,26 @@
 #include "SynGenerator.h"
 #include "Corrector.h"
 
-//ce registre permet d'envoyer et recevoire des mot code en Hamming
+//ce registre permet d'envoyer et recevoire des mot de code de Hamming
 
 
 SC_MODULE(HamReg)
 {
-	HCGen *hgen;
-	SynGen *sgen;
-	Corrector *corr;
+	HCGen *hgen;  //le circuit qui genere le mot de code
+	SynGen *sgen;  //le circuit qui genere le syndrome
+	Corrector *corr; //le circuit de correction et de decodage
 
-	//Ports
+	//Les Portes
 	sc_in < bool > clk;
-	sc_in < sc_uint<15> > coded_din;
-	sc_out < sc_uint<15> > coded_dout;
+	sc_in < sc_uint<15> > coded_din;   //mot de code a decoder
+	sc_out < sc_uint<15> > coded_dout;  //mot de code generé
 
-	//les données a codé
-	sc_in < sc_uint<11> > din;
-    sc_out < sc_uint<11> > dout;
+	//les données a codées
+	sc_in < sc_uint<11> > din;    //mot a coder
+    sc_out < sc_uint<11> > dout;   //un mot decodé
 
     //signal de connection des modules
     sc_signal < sc_uint <4> > syndSig;
-
     sc_signal< sc_uint <11> > din_sig;
     sc_signal< sc_uint <15> > codeddout_sig;
 
@@ -42,11 +41,14 @@ SC_MODULE(HamReg)
     sc_out < bool > dout_vld;
     sc_in < bool > dout_rdy;
 
-    void ham_main_din();
-    void ham_main_codedin();
+
+    //les processus principales
+    void ham_main_din();   //processus de codage
+    void ham_main_codedin();  //processus de decodage
 
 	//constructeur
 	SC_CTOR(HamReg){
+		//pour la generation d'un mot de code
 		hgen=new HCGen("hgen");
 		hgen->din( din );
 		hgen->dout( coded_dout );
@@ -64,7 +66,7 @@ SC_MODULE(HamReg)
         sgen->dout( syndSig );
         sgen->clk(clk);
 
-
+        //pour la correction d'un mot de code et la decoder
 		corr=new Corrector("corr");
 		corr->datain( coded_din );
 		corr->syndin( syndSig );
@@ -74,19 +76,16 @@ SC_MODULE(HamReg)
 		corr->codedin_vld(codedin_vld);
 		corr->dout_rdy(dout_rdy);
 		corr->dout_vld(dout_vld);
-		//corr->clk(clk);
 
 
 		SC_CTHREAD(ham_main_din,clk.pos());
 		SC_CTHREAD(ham_main_codedin,clk.pos());
 
-	//sensitive << coded_din << din ;
-	 //sensitive << clk.pos();
 		sensitive << din;
 		sensitive << din_vld;
 		sensitive << clk.pos();
 	}
-	~HamReg(){
+	~HamReg(){   //le destructeur
      delete hgen;
      delete sgen;
      delete corr;

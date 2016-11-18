@@ -6,14 +6,17 @@
 #include "testbench.h"
 
 
+//cet circuit permet de difinir le systeme complet de test, avec un module de testbench
+//qui genere les signaux et un module de registre de hamming qui code ou decode les mot
 
 
 
 SC_MODULE(SYSTEMH)
 {
-	HamReg *hreg;
-	tbreg *tb;
+	HamReg *hreg;   //le registre de hamming definie
+	tbreg *tb;   //le module de test bench
 
+	//les signaux de connection des differents modules
 	sc_signal< sc_uint <11> > din_sig;
 	sc_signal< bool > din_sig_vld;
 	sc_signal< bool > din_sig_rdy;
@@ -36,16 +39,15 @@ SC_MODULE(SYSTEMH)
 	sc_signal< bool > dout_sig_rdy;
 
 
-
-
-
+    //un clock pour les deux modules dans le system
+	//testbench et Hreg
 	sc_clock clk_sig;
 
 	SC_CTOR(SYSTEMH)
-	:clk_sig("clk_sig",10, SC_NS)
+	:clk_sig("clk_sig",10, SC_NS)  //l'initialisation du clock de systeme
 	{
 
-//initialisation du registre de hamming avec le hadshake
+//initialisation du registre de hamming et l'affectation des signaux de hand shake
       hreg=new HamReg("hreg");
       hreg->clk(clk_sig);
 
@@ -66,7 +68,7 @@ SC_MODULE(SYSTEMH)
       hreg->codedout_vld(codedout_sig_vld);
 
 
-//Initialisation du module de testbench avec les signaux de hand shake
+//Initialisation du module de testbench et l'affectation des signaux de hand shake
       tb=new tbreg("tb");
       tb->clk(clk_sig);
 
@@ -86,7 +88,7 @@ SC_MODULE(SYSTEMH)
       tb->codedout_rdy(codedout_sig_rdy);
       tb->codedout_vld(codedout_sig_vld);
 	}
-	~SYSTEMH(){
+	~SYSTEMH(){   //le destructeur
      delete tb;
      delete hreg;
 	}

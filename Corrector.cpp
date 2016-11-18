@@ -2,11 +2,12 @@
 
 void Corrector::correct()
 {
+	//la matrice de parité (15, 11)
 	sc_uint <15> syndMatrice[4];
-	syndMatrice[0]=32520; //111111100001000
-	syndMatrice[1]=30948; //111100011100100
-	syndMatrice[2]=26322; //110011011010010
-	syndMatrice[3]=21937; //101010110110001
+	syndMatrice[0]=2040;  //000011111111000
+	syndMatrice[1]=14580; //011100011110100
+	syndMatrice[2]=23346; //101101100110010
+	syndMatrice[3]=27985; //110110101010001
 
 	dout_vld.write(0);
 	while(true){
@@ -20,45 +21,36 @@ void Corrector::correct()
 			wait();
 		}while(! codedin_vld.read());
 
-		tmpSyn=syndin.read();  cout <<"\n SYN == "<<tmpSyn<<" \n"<<endl;
+		tmpSyn=syndin.read();
 		tmpData=datain.read();
 
 		codedin_rdy.write(0);
-		//the correction
-		if(tmpSyn != 0 )
+		//La correction
+		if(tmpSyn != 0 )  //si le syndrome =0 donc il n'y a pas d'erreur
 		{
-			//there is a mistake in the data
-			/*for(int i=0;i<4;i++){
-				tmpSyn.bit(i) == syndMatrice[i];
-			}*/
 			int j=0;
 			bool cont=true;
 			while(cont && j<15){
-				if(tmpSyn.bit(0) == syndMatrice[0].bit(j) &&
-						tmpSyn.bit(1) == syndMatrice[1].bit(j) &&
-						tmpSyn.bit(2) == syndMatrice[2].bit(j) &&
-						tmpSyn.bit(3) == syndMatrice[3].bit(j)){
+				if(tmpSyn.bit(3) == syndMatrice[0].bit(j) &&
+						tmpSyn.bit(2) == syndMatrice[1].bit(j) &&
+						tmpSyn.bit(1) == syndMatrice[2].bit(j) &&
+						tmpSyn.bit(0) == syndMatrice[3].bit(j)){
 					cont =false;
 				}else{
 					j++;
 				}
 			}
 			if(cont==true){
-				//Something went wrong
+				//Erreur: exit();
 			}
-			// correcting the error
+			// La correction de l'erreur
 			if(j<15)
 			tmpData.set(j,!tmpData.bit(j));
 		}
-		//generation of data
-		for(int i=1;i<=15;i++)
+		//le decodage de donnée (extraire du 11 bits a partir du mot de code  )
+		for(int i=0;i<11;i++)
 		{
-			if(i==pow){
-				pow *=2;
-			}else{
-				res.set(cpt, tmpData.bit(i-1));
-				cpt++;
-			}
+			res.set(i, tmpData.bit(i +4));
 		}
 	dout_vld.write(1);
 	dout.write(res);
@@ -66,6 +58,6 @@ void Corrector::correct()
 		wait();
 	}while(! dout_rdy.read());
 	dout_vld.write(0);
-}
+	}
 
 }
