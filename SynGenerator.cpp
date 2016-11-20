@@ -26,5 +26,5 @@ void SynGen::calculate()
 	dout.write(syndrome);
 
 	//* decommenter pour afficher les valeurs des syndromes
-	//cout << "le syndrome pour le mot :"<<std::bitset<15>(data) <<", est >>"<<std::bitset<4>(syndrome) << endl;
+	cout << "le syndrome pour le mot :"<<std::bitset<15>(data) <<", est >>"<<std::bitset<4>(syndrome) << endl;
 }
