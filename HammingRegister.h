@@ -1,4 +1,4 @@
-#ifndef HAMMINGREG_    //pour eviter le probleme d'inclusion infinie
+#ifndef HAMMINGREG_
 #define HAMMINGREG_
 
 #include <systemc.h>
@@ -6,30 +6,30 @@
 #include "SynGenerator.h"
 #include "Corrector.h"
 
-//ce registre permet d'envoyer et recevoire des mot de code de Hamming
 
+//code and decode words using hamming code
 
 SC_MODULE(HamReg)
 {
-	HCGen *hgen;  //le circuit qui genere le mot de code
-	SynGen *sgen;  //le circuit qui genere le syndrome
-	Corrector *corr; //le circuit de correction et de decodage
+	HCGen *hgen;  //this circuit generate a code word
+	SynGen *sgen;  //this circuit calculate the syndrome
+	Corrector *corr; //this circuit correct and decode a word
 
-	//Les Portes
+	//Ports
 	sc_in < bool > clk;
-	sc_in < sc_uint<15> > coded_din;   //mot de code a decoder
-	sc_out < sc_uint<15> > coded_dout;  //mot de code generé
+	sc_in < sc_uint<15> > coded_din;
+	sc_out < sc_uint<15> > coded_dout;
 
-	//les données a codées
-	sc_in < sc_uint<11> > din;    //mot a coder
-    sc_out < sc_uint<11> > dout;   //un mot decodé
 
-    //signal de connection des modules
+	sc_in < sc_uint<11> > din;
+    sc_out < sc_uint<11> > dout;
+
+    //signals to connect between the modules
     sc_signal < sc_uint <4> > syndSig;
     sc_signal< sc_uint <11> > din_sig;
     sc_signal< sc_uint <15> > codeddout_sig;
 
-    //les signaux de handshake
+    // handshake signals
     sc_in < bool > din_vld;
     sc_out < bool > din_rdy;
     sc_out < bool > codedout_vld;
@@ -42,13 +42,12 @@ SC_MODULE(HamReg)
     sc_in < bool > dout_rdy;
 
 
-    //les processus principales
-    void ham_main_din();   //processus de codage
-    void ham_main_codedin();  //processus de decodage
 
-	//constructeur
+    void ham_main_din();   //coding process
+    void ham_main_codedin();  //decoding process
+
 	SC_CTOR(HamReg){
-		//pour la generation d'un mot de code
+
 		hgen=new HCGen("hgen");
 		hgen->din( din );
 		hgen->dout( coded_dout );
@@ -58,15 +57,11 @@ SC_MODULE(HamReg)
 		hgen->codedout_rdy(codedout_rdy);
 		hgen->codedout_vld(codedout_vld);
 
-
-
-         //pour le calcule du syndrome
 		sgen=new SynGen("sgen");
 		sgen->din( coded_din );
         sgen->dout( syndSig );
         sgen->clk(clk);
 
-        //pour la correction d'un mot de code et la decoder
 		corr=new Corrector("corr");
 		corr->datain( coded_din );
 		corr->syndin( syndSig );
@@ -85,7 +80,7 @@ SC_MODULE(HamReg)
 		sensitive << din_vld;
 		sensitive << clk.pos();
 	}
-	~HamReg(){   //le destructeur
+	~HamReg(){
      delete hgen;
      delete sgen;
      delete corr;

@@ -6,7 +6,7 @@ using namespace std;
 
 
 void tbreg::send(){
-	//l'envoie des données a coder
+	//send the data to encode
 	din_vld.write(0);
 	for(int i=0;i<128; i++){
 		din_vld.write(1);
@@ -14,12 +14,12 @@ void tbreg::send(){
 		din.write(i);
 
 		do{
-			wait();    //tant que din n'est pret on attend
+			wait();
 		}while(!din_rdy.read());
 		din_vld.write(0);
  	}
 
-	//l'envoie des données a décoder
+	//send the data to decode
 
 	codedin_vld.write(0);
 	for(int i=0;i<128; i++){
@@ -28,7 +28,7 @@ void tbreg::send(){
 		coded_din.write(i);
 
 		do{
-			wait();   //tant que coded_din n'est pret on attend
+			wait();
 		}while(!codedin_rdy.read());
 		codedin_vld.write(0);
 	}
@@ -37,34 +37,32 @@ void tbreg::receive(){
 	sc_uint <15> coded_data_tmp;
 	codedout_rdy.write(0);
 
-	cout << "\n ****** LE CODAGE ****** \n"<<endl;
+	cout << "\n ****** THE ENCODING ****** \n"<<endl;
 	for(int i=0;i<128; i++){
 
 		codedout_rdy.write(1);
 		do{
-			wait();            //tant que coded_dout ne contient pas de données valide on attend
+			wait();
 		 }while(!codedout_vld.read());
 		coded_data_tmp=coded_dout.read();
-		cout <<" un mot de <11> bits : "<< std::bitset<11>(i) << " -> code de Hamming sur <15> bits : \t" << std::bitset<15>(coded_data_tmp) <<endl;
+		cout <<" a word of <11> bits : "<< std::bitset<11>(i) << " -> its Hamming code on <15> bits : " << std::bitset<15>(coded_data_tmp) <<endl;
 		codedout_rdy.write(0);
 	}
 
-	//recuperation des données decodées et corrigées
-	cout << "\n ****** LE DECODAGE ****** \n"<<endl;
+	cout << "\n ****** THE DECODING ****** \n"<<endl;
 	sc_uint <11> corrected_data_tmp;
 	dout_rdy.write(0);
 	for(int i=0;i<128; i++){
 
 		dout_rdy.write(1);
 		do{
-			wait();  //tant que il n'y a pas de données valides à recuperer on attend
+			wait();
 		}while(!dout_vld.read());
 		corrected_data_tmp=dout.read();
 			//wait();
-		cout <<" un mot de code de <15> bits: "<< std::bitset<15>(i) << " -> apres la correction et le docodage <11> bits : " << std::bitset<11>(corrected_data_tmp) <<endl;
+		cout <<" a Hamming code word on <15> bits: "<< std::bitset<15>(i) << " -> after the correction and the decoding <11> bits : " << std::bitset<11>(corrected_data_tmp) <<endl;
 		dout_rdy.write(0);
 	}
 
-	//terminer la simulation une fois qu'on a testé ces valeurs
-	sc_stop();
+	sc_stop(); //stop the simulation
 }

@@ -2,7 +2,7 @@
 
 void Corrector::correct()
 {
-	//la matrice de parité (15, 11)
+	//Parity matrix (15, 11)
 	sc_uint <15> syndMatrice[4];
 	syndMatrice[0]=2040;  //000011111111000
 	syndMatrice[1]=14580; //011100011110100
@@ -25,8 +25,8 @@ void Corrector::correct()
 		tmpData=datain.read();
 
 		codedin_rdy.write(0);
-		//La correction
-		if(tmpSyn != 0 )  //si le syndrome =0 donc il n'y a pas d'erreur
+		//the correction
+		if(tmpSyn != 0 )  //if the syndrome =0 => no error occured
 		{
 			int j=0;
 			bool cont=true;
@@ -41,13 +41,13 @@ void Corrector::correct()
 				}
 			}
 			if(cont==true){
-				//Erreur: exit();
+				//Something went wrong: exit();
 			}
-			// La correction de l'erreur
+			// the error correction
 			if(j<15)
 			tmpData.set(j,!tmpData.bit(j));
 		}
-		//le decodage de donnée (extraire du 11 bits a partir du mot de code  )
+		//extract the 11 bits
 		for(int i=0;i<11;i++)
 		{
 			res.set(i, tmpData.bit(i +4));

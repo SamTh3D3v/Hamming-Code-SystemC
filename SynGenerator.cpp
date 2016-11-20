@@ -10,8 +10,8 @@ void SynGen::calculate()
 	int tmp=0;
 
 	data=din.read();
-	//la  matrice H qui permet de calculer le syndrome
-	syndMatrice[0]=2040;  //000011111111000      //la matrice de parité H, H*data=syndrome
+	//The parity matrix H
+	syndMatrice[0]=2040;  //000011111111000
 	syndMatrice[1]=14580; //011100011110100
 	syndMatrice[2]=23346; //101101100110010
 	syndMatrice[3]=27985; //110110101010001
@@ -25,6 +25,6 @@ void SynGen::calculate()
 	}
 	dout.write(syndrome);
 
-	//* decommenter pour afficher les valeurs des syndromes
-	cout << "le syndrome pour le mot :"<<std::bitset<15>(data) <<", est >>"<<std::bitset<4>(syndrome) << endl;
+	//* uncomment this line to view the calculated syndrome on the cout
+	//cout << "the syndrome for the following word :"<<std::bitset<15>(data) <<", is >>"<<std::bitset<4>(syndrome) << endl;
 }

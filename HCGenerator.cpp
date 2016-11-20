@@ -3,16 +3,16 @@
 void HCGen::generate()
 {
 
-while(true){     //une boucles infinie pour utiliser les signaux de hand shake
+while(true){
 
 	sc_uint <15> res;
 	sc_uint <11> tmp;
 
-	bool p1, p2, p3, p4;  //les bits de parité
+	bool p1, p2, p3, p4;  //parity bits
 
-	din_rdy.write(1);  //le circuit est pret pour une nouvelle mot a coder
+	din_rdy.write(1);
 	    	do{
-	    		wait();     //tant que il n'y a pas un signal valide sur din on attend
+	    		wait();
 	}while(! din_vld.read());
 
 	tmp=din.read();
@@ -23,7 +23,7 @@ while(true){     //une boucles infinie pour utiliser les signaux de hand shake
 	p3=tmp.bit(10-1)^ tmp.bit(10-2)^tmp.bit(10-3)^tmp.bit(10-7)^tmp.bit(10-8)^tmp.bit(10-9)^tmp.bit(10-10);
 	p4=tmp.bit(10-4)^ tmp.bit(10-5)^tmp.bit(10-6)^tmp.bit(10-7)^tmp.bit(10-8)^tmp.bit(10-9)^tmp.bit(10-10);
 
-	//copiage des bits qui ne changeant pas
+	//too lazy to add a looop :p
    res.set(14,(bool)tmp.bit(10));
    res.set(13,(bool)tmp.bit(9));
    res.set(12,(bool)tmp.bit(8));
@@ -35,18 +35,18 @@ while(true){     //une boucles infinie pour utiliser les signaux de hand shake
    res.set(6,(bool)tmp.bit(2));
    res.set(5,(bool)tmp.bit(1));
    res.set(4,(bool)tmp.bit(0));
-
-   //les bits de parité
+   //yes i am not too lazy to add comments tho -|-
+   //parity bits
    res.set(3,(bool)p1); //*
    res.set(2,(bool)p2); //*
    res.set(1,(bool)p3); //*
    res.set(0,(bool)p4); //*
 
-    codedout_vld.write(1);  //dout est valide
+    codedout_vld.write(1);
 	dout.write(res);
 
 	do{
-		wait();           // tant il n'y a pas une nouvelle entré pret a lire on attend
+		wait();
 	}while(! codedout_rdy.read());
 	codedout_vld.write(0);
 }
