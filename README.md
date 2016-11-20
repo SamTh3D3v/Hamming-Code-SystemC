@@ -1,9 +1,9 @@
 #Hamming code register (15,11) using SystemC 
 
 
-this is an implementation of a Hamming code register that can:
+This is a simple implementation of a basic Hamming code register that can:
 
-* code a 11 bits’ input word into a 15 bits' hamming code word.
+* code an 11 bits’ input word into a 15 bits' hamming code word.
 * correct a 15 bits’ hamming code word and extract the original 11 bits’ word.
 
 
@@ -12,7 +12,7 @@ this is an implementation of a Hamming code register that can:
 ![Hamming](http://i.imgur.com/XogJSxs.png)
 
 
-##The test bench and the testing system structure
+##The testing system structure
 
 
 ![System Structure](http://i.imgur.com/oC5zs8w.png)
