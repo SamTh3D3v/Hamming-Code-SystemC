@@ -22,4 +22,5 @@ this is an implementation of a Hamming code register that can:
 the parity bits are added to the end of the word and not to the power of two positions.
 
 [SystemC envirenement setup on gcc!](http://users.ece.utexas.edu/~gerstl/ee382v_f09/docs/SystemC_setup.pdf)
+
 [About Hamming code!](https://en.wikipedia.org/wiki/Hamming_code)
